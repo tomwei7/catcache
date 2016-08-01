@@ -119,6 +119,23 @@ func (p *MultipleCache) Get(key string) (interface{}, error) {
 	return nil, CacheError{Nonexist, "key Nonexist"}
 }
 
+//make node be frist
+func (p *MultipleCache) first(cacheData *CacheData) {
+	if p.Length == 1 {
+		return
+	}
+	//cut self
+	cacheData.Previous.Next = cacheData.Next
+	cacheData.Next.Previous = cacheData.Previous
+
+	p.cacheListHead.Previous.Next = cacheData
+	cacheData.Previous = p.cacheListHead.Previous
+
+	p.cacheListHead.Previous = cacheData
+	cacheData.Next = p.cacheListHead
+	return
+}
+
 //删除一个cachedata
 func (p *MultipleCache) del(cacheData *CacheData) {
 	p.rwm.Lock()
