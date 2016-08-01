@@ -95,8 +95,11 @@ func (p *MultipleCache) Set(key string, v interface{}) {
 		p.cacheListHead = cacheData
 	} else {
 		cacheData.Previous = p.cacheListHead.Previous
-		p.cacheListHead.Previous = cacheData
 		cacheData.Next = p.cacheListHead
+
+		p.cacheListHead.Previous.Next = cacheData
+		p.cacheListHead.Previous = cacheData
+
 		p.cacheListHead = cacheData
 	}
 	p.cacheMap[key] = cacheData
@@ -151,5 +154,6 @@ func (p *MultipleCache) del(cacheData *CacheData) {
 	}
 	cacheData.Next.Previous = cacheData.Previous
 	cacheData.Previous.Next = cacheData.Next
+	cacheData = nil
 	return
 }
