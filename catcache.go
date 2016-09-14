@@ -73,7 +73,7 @@ func NewMultipleCache(maxLength int, expireIn int64) *MultipleCache {
 		Length:        0,
 		ExpireIn:      expireIn,
 		cacheListHead: nil,
-		cacheMap:      make(map[string]*CacheData),
+		cacheMap:      make(map[string]*CacheData, maxLength),
 	}
 }
 
